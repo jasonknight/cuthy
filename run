@@ -1,0 +1,3 @@
+#!/bin/bash
+gcc -o program-$1.bin algorithm-$1.c
+gcc -S -o program-$1.asm algorithm-$1.c
