@@ -1,4 +1,4 @@
-==Why?
+== Why?
 
   Practice yourself, for heaven's sake, in little things; 
   and thence proceed to greater. 
@@ -26,7 +26,7 @@ procedural glory.
 I don't want to be protected from the gritty truth of the computers world.
 I don't want to be protected from the truth at all.
 
-==Naming
+== Naming
 
 The naming of the examples is by Algorithm, for instance 'algorithm-e.c', or 
 'algorithm-e2.c', and 'algorithm-p.c'.
