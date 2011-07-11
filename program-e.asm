@@ -20,7 +20,7 @@ main:
 	movl	$0, %eax
 	movl	%eax, %edx
 	movl	%edx, %eax
-	jmp	.L6
+	jmp	.L4
 .L2:
 	call	banner
 	movl	12(%ebp), %eax
@@ -39,10 +39,10 @@ main:
 	cmpl	24(%esp), %eax
 	jge	.L3
 	movl	24(%esp), %eax
-	movl	%eax, 16(%esp)
+	movl	%eax, 20(%esp)
 	movl	28(%esp), %eax
 	movl	%eax, 24(%esp)
-	movl	16(%esp), %eax
+	movl	20(%esp), %eax
 	movl	%eax, 28(%esp)
 .L3:
 	movl	$.LC0, %eax
@@ -52,31 +52,18 @@ main:
 	movl	%edx, 4(%esp)
 	movl	%eax, (%esp)
 	call	printf
-	movl	28(%esp), %eax
-	movl	%eax, %edx
-	sarl	$31, %edx
-	idivl	24(%esp)
-	movl	%edx, 20(%esp)
-	jmp	.L4
-.L5:
 	movl	24(%esp), %eax
-	movl	%eax, 28(%esp)
-	movl	20(%esp), %eax
-	movl	%eax, 24(%esp)
+	movl	%eax, 4(%esp)
 	movl	28(%esp), %eax
-	movl	%eax, %edx
-	sarl	$31, %edx
-	idivl	24(%esp)
-	movl	%edx, 20(%esp)
-.L4:
-	cmpl	$0, 20(%esp)
-	jne	.L5
+	movl	%eax, (%esp)
+	call	euclid
+	movl	%eax, 24(%esp)
 	movl	$.LC1, %eax
 	movl	24(%esp), %edx
 	movl	%edx, 4(%esp)
 	movl	%eax, (%esp)
 	call	printf
-.L6:
+.L4:
 	leave
 	ret
 	.size	main, .-main
@@ -112,5 +99,34 @@ banner:
 	leave
 	ret
 	.size	banner, .-banner
+.globl euclid
+	.type	euclid, @function
+euclid:
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$16, %esp
+	movl	8(%ebp), %eax
+	movl	%eax, %edx
+	sarl	$31, %edx
+	idivl	12(%ebp)
+	movl	%edx, -4(%ebp)
+	jmp	.L10
+.L11:
+	movl	12(%ebp), %eax
+	movl	%eax, 8(%ebp)
+	movl	-4(%ebp), %eax
+	movl	%eax, 12(%ebp)
+	movl	8(%ebp), %eax
+	movl	%eax, %edx
+	sarl	$31, %edx
+	idivl	12(%ebp)
+	movl	%edx, -4(%ebp)
+.L10:
+	cmpl	$0, -4(%ebp)
+	jne	.L11
+	movl	12(%ebp), %eax
+	leave
+	ret
+	.size	euclid, .-euclid
 	.ident	"GCC: (Ubuntu/Linaro 4.4.4-14ubuntu5) 4.4.5"
 	.section	.note.GNU-stack,"",@progbits
