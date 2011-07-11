@@ -12,6 +12,9 @@ int main(int argc, char * argv[]) {
   }
   banner();
   num = atoi(argv[1]);
+  if ( num < 3 ) {
+    num = 3;
+  }
   primes(num);
 }
 void help() {

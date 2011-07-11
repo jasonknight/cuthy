@@ -13,7 +13,7 @@ main:
 	movl	$0, %eax
 	movl	%eax, %edx
 	movl	%edx, %eax
-	jmp	.L3
+	jmp	.L4
 .L2:
 	call	banner
 	movl	12(%ebp), %eax
@@ -22,10 +22,14 @@ main:
 	movl	%eax, (%esp)
 	call	atoi
 	movl	%eax, 28(%esp)
+	cmpl	$2, 28(%esp)
+	jg	.L3
+	movl	$3, 28(%esp)
+.L3:
 	movl	28(%esp), %eax
 	movl	%eax, (%esp)
 	call	primes
-.L3:
+.L4:
 	leave
 	ret
 	.size	main, .-main
@@ -71,27 +75,27 @@ primes:
 	movl	%eax, (%esp)
 	call	malloc
 	movl	%eax, -12(%ebp)
-.L9:
+.L10:
 	movl	-12(%ebp), %eax
 	addl	$4, %eax
 	movl	$2, (%eax)
 	movl	$3, -16(%ebp)
 	movl	$1, -20(%ebp)
-	jmp	.L10
-.L18:
+	jmp	.L11
+.L19:
 	nop
-.L10:
+.L11:
 	addl	$1, -20(%ebp)
 	movl	-20(%ebp), %eax
 	sall	$2, %eax
 	addl	-12(%ebp), %eax
 	movl	-16(%ebp), %edx
 	movl	%edx, (%eax)
-.L11:
+.L12:
 	movl	8(%ebp), %eax
 	subl	$1, %eax
 	cmpl	-20(%ebp), %eax
-	jne	.L12
+	jne	.L13
 	movl	8(%ebp), %eax
 	movl	%eax, 4(%esp)
 	movl	-12(%ebp), %eax
@@ -99,12 +103,12 @@ primes:
 	call	print_table
 	leave
 	ret
-.L17:
+.L18:
 	nop
-.L12:
+.L13:
 	addl	$2, -16(%ebp)
 	movl	$2, -24(%ebp)
-.L13:
+.L14:
 	movl	-24(%ebp), %eax
 	sall	$2, %eax
 	addl	-12(%ebp), %eax
@@ -125,17 +129,17 @@ primes:
 	idivl	%ecx
 	movl	%edx, -32(%ebp)
 	cmpl	$0, -32(%ebp)
-	je	.L17
-.L14:
+	je	.L18
+.L15:
 	movl	-24(%ebp), %eax
 	sall	$2, %eax
 	addl	-12(%ebp), %eax
 	movl	(%eax), %eax
 	cmpl	-28(%ebp), %eax
-	jge	.L18
-.L15:
+	jge	.L19
+.L16:
 	addl	$1, -24(%ebp)
-	jmp	.L13
+	jmp	.L14
 	.size	primes, .-primes
 	.section	.rodata
 	.align 4
@@ -158,8 +162,8 @@ print_table:
 	movl	$1, -16(%ebp)
 	movw	$9, -10(%ebp)
 	movw	$0, -12(%ebp)
-	jmp	.L20
-.L22:
+	jmp	.L21
+.L23:
 	movl	-16(%ebp), %eax
 	sall	$2, %eax
 	addl	8(%ebp), %eax
@@ -171,17 +175,17 @@ print_table:
 	addl	$1, -16(%ebp)
 	movzwl	-12(%ebp), %eax
 	cmpw	-10(%ebp), %ax
-	jne	.L21
+	jne	.L22
 	movl	$10, (%esp)
 	call	putchar
 	movw	$0, -12(%ebp)
-	jmp	.L20
-.L21:
+	jmp	.L21
+.L22:
 	addw	$1, -12(%ebp)
-.L20:
+.L21:
 	movl	-16(%ebp), %eax
 	cmpl	12(%ebp), %eax
-	jl	.L22
+	jl	.L23
 	movl	$10, (%esp)
 	call	putchar
 	leave
